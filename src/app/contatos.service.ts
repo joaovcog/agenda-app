@@ -16,4 +16,12 @@ export class ContatosService {
   salvar(contato: Contato): Observable<Contato> {
     return this.http.post<Contato>(this.baseUrl, contato);
   }
+
+  listar(): Observable<Contato[]> {
+    return this.http.get<Contato[]>(this.baseUrl);
+  }
+
+  favoritar(contato: Contato): Observable<void> {
+    return this.http.patch<void>(`${this.baseUrl}/${contato.id}/favorito`, null);
+  }
 }
