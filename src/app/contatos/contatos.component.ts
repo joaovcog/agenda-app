@@ -10,6 +10,7 @@ import { Contato } from './contato.model';
 })
 export class ContatosComponent implements OnInit {
   form!: FormGroup;
+  contatos: Contato[] = [];
 
   constructor(private contatoService: ContatosService, private formBuilder: FormBuilder) { }
 
@@ -21,13 +22,15 @@ export class ContatosComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form?.value);
+    const formValues = this.form.value;
+    const contato: Contato = new Contato(formValues.nome, formValues.email);
 
-    /*this.contatoService.salvar(c).subscribe({
+    this.contatoService.salvar(contato).subscribe({
       next: (response) => {
-        console.log(response);
+        this.contatos.push(response);
+        console.log(this.contatos);
       }
-    });*/
+    });
   }
 
 }

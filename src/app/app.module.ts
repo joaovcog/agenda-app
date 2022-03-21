@@ -10,6 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 import { ContatosComponent } from './contatos/contatos.component';
 import { ContatosService } from './contatos.service';
@@ -28,7 +32,11 @@ import { ContatosService } from './contatos.service';
 
     MatButtonModule,
     MatToolbarModule,
-    MatInputModule
+    MatInputModule,
+    MatTabsModule,
+    MatTableModule,
+    MatIconModule,
+    MatCardModule
   ],
   providers: [ContatosService],
   bootstrap: [AppComponent]

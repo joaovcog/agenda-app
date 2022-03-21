@@ -1,26 +1,36 @@
 <mat-toolbar color="primary">Contatos</mat-toolbar>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Nome: </mat-label>
-        <input formControlName="nome" matInput placeholder="Digite seu nome" />
-    </mat-form-field>
-    <div *ngIf="form.get('nome')?.errors?.['required']">
-        Campo nome é obrigatório
-    </div>
+<mat-tab-group>
+    <mat-tab label="Lista de Contatos">
 
-    <mat-form-field class="full-width" appearance="fill">
-        <mat-label>E-mail: </mat-label>
-        <input formControlName="email" matInput placeholder="Digite seu e-mail" />
-    </mat-form-field>
+    </mat-tab>
+    <mat-tab label="Novo">
+        <mat-card class="half-width">
+            <mat-card-title>Novo Contato</mat-card-title>
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Nome: </mat-label>
+                    <input formControlName="nome" matInput placeholder="Digite seu nome" />
+                </mat-form-field>
+                <div *ngIf="form.get('nome')?.errors?.['required']">
+                    Campo nome é obrigatório
+                </div>
 
-    <div *ngIf="form.get('email')?.errors?.['required']">
-        Campo e-mail é obrigatório
-    </div>
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>E-mail: </mat-label>
+                    <input formControlName="email" matInput placeholder="Digite seu e-mail" />
+                </mat-form-field>
 
-    <div *ngIf="form.get('email')?.errors?.['email']">
-        E-mail inválido
-    </div>
+                <div *ngIf="form.get('email')?.errors?.['required']">
+                    Campo e-mail é obrigatório
+                </div>
 
-    <button mat-raised-button color="primary" [disabled]="!form.valid">Adicionar</button>
-</form>
+                <div *ngIf="form.get('email')?.errors?.['email']">
+                    E-mail inválido
+                </div>
+
+                <button mat-raised-button color="primary" [disabled]="!form.valid">Adicionar</button>
+            </form>
+        </mat-card>
+    </mat-tab>
+</mat-tab-group>
