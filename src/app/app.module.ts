@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatInputModule } from '@angular/material/input';
+
 import { ContatosComponent } from './contatos/contatos.component';
 import { ContatosService } from './contatos.service';
 
@@ -19,7 +22,9 @@ import { ContatosService } from './contatos.service';
     AppRoutingModule,
     BrowserAnimationsModule,
 
-    MatButtonModule
+    MatButtonModule,
+    MatToolbarModule,
+    MatInputModule
   ],
   providers: [ContatosService],
   bootstrap: [AppComponent]
