@@ -3,6 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ContatosService } from '../contatos.service';
 import { Contato } from './contato.model';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ContatosDetalhesComponent } from '../contatos-detalhes/contatos-detalhes.component';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-contatos',
   templateUrl: './contatos.component.html',
@@ -13,12 +18,17 @@ export class ContatosComponent implements OnInit {
   contatos: Contato[] = [];
   colunas: string[] = ['foto', 'id', 'nome', 'email', 'favorito'];
 
-  constructor(private contatoService: ContatosService, private formBuilder: FormBuilder) { }
+  totalElementos = 0;
+  pagina = 0;
+  tamanho = 10;
+  pageSizeOptions: number[] = [10];
+
+  constructor(private contatoService: ContatosService, private formBuilder: FormBuilder, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.montarFormulario();
 
-    this.listarContatos();
+    this.listarContatos(this.pagina, this.tamanho);
   }
 
   montarFormulario(): void {
@@ -28,10 +38,12 @@ export class ContatosComponent implements OnInit {
     });
   }
 
-  listarContatos(): void {
-    this.contatoService.listar().subscribe({
+  listarContatos(pagina: number = 0, tamanho: number = 10): void {
+    this.contatoService.listar(pagina, tamanho).subscribe({
       next: (response) => {
-        this.contatos = response;
+        this.contatos = response.content || [];
+        this.totalElementos = response.totalElements!;
+        this.pagina = response.number!;
       }
     });
   }
@@ -48,8 +60,12 @@ export class ContatosComponent implements OnInit {
 
     this.contatoService.salvar(contato).subscribe({
       next: (response) => {
-        let lista: Contato[] = [...this.contatos, response];
-        this.contatos = lista;
+        this.listarContatos();
+        this.snackBar.open('Contato adicionado!', 'Sucesso!', {
+          duration: 2000
+        });
+
+        this.form.reset();
       }
     });
   }
@@ -68,5 +84,22 @@ export class ContatosComponent implements OnInit {
         }
       });
     }
+  }
+
+  removerFoto(contato: Contato) {
+    contato.foto = undefined;
+  }
+
+  visualizarContato(contato: Contato): void {
+    this.dialog.open(ContatosDetalhesComponent, {
+      width: '400px',
+      height: '450px',
+      data: contato
+    });
+  }
+
+  paginar(event: PageEvent): void {
+    this.pagina = event.pageIndex;
+    this.listarContatos(this.pagina, this.tamanho);
   }
 }

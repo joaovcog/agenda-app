@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Contato } from './contatos/contato.model';
+import { PaginaContato } from './contatos/pagina-contato.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,10 @@ export class ContatosService {
     return this.http.post<Contato>(this.baseUrl, contato);
   }
 
-  listar(): Observable<Contato[]> {
-    return this.http.get<Contato[]>(this.baseUrl);
+  listar(page: number, size: number): Observable<PaginaContato> {
+    const params = new HttpParams().set('page', page).set('size', size);
+
+    return this.http.get<PaginaContato>(`${this.baseUrl}?${params.toString()}`);
   }
 
   favoritar(contato: Contato): Observable<void> {
