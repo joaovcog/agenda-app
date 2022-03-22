@@ -11,7 +11,7 @@ import { Contato } from './contato.model';
 export class ContatosComponent implements OnInit {
   form!: FormGroup;
   contatos: Contato[] = [];
-  colunas: string[] = ['id', 'nome', 'email', 'favorito'];
+  colunas: string[] = ['foto', 'id', 'nome', 'email', 'favorito'];
 
   constructor(private contatoService: ContatosService, private formBuilder: FormBuilder) { }
 
@@ -54,4 +54,19 @@ export class ContatosComponent implements OnInit {
     });
   }
 
+  uploadFoto(event: any, contato: Contato) {
+    const files = event?.target.files;
+
+    if (files) {
+      const foto = files[0];
+      const formData: FormData = new FormData();
+      formData.append('foto', foto);
+
+      this.contatoService.upload(contato, formData).subscribe({
+        complete: () => {
+          this.listarContatos();
+        }
+      });
+    }
+  }
 }

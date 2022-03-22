@@ -24,4 +24,8 @@ export class ContatosService {
   favoritar(contato: Contato): Observable<void> {
     return this.http.patch<void>(`${this.baseUrl}/${contato.id}/favorito`, null);
   }
+
+  upload(contato: Contato, formData: FormData): Observable<Blob> {
+    return this.http.put(`${this.baseUrl}/${contato.id}/foto`, formData, { responseType: 'blob' });
+  }
 }
